@@ -32,7 +32,7 @@ def show_user_profile(username):
     """
     show the user profile for that user
 
-    :param username: 参数名称必须与装饰器内的名称一致
+    :param username: 参数名称必须与装饰器内参数的名称一致
     :return:
     """
 
@@ -42,6 +42,39 @@ def show_user_profile(username):
 
     return "User %s" % escape(username)
 
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    # show the post with the given id, the id is an integer
+    return 'Post %d' % post_id
+
+@app.route('/path/<path:subpath>')
+def show_subpath(subpath):
+    # show the subpath after /path/
+    return 'Subpath %s' % escape(subpath)
+
+
+
+"""
+唯一的 URL / 重定向行为
+"""
+
+"""
+访问一个没有斜杠结尾的 URL 时 Flask 会自动进行重定向，帮你在尾部加上一个斜杠。
+"""
+@app.route('/projects/')
+def projects():
+    return 'The project page'
+
+
+"""
+about 的 URL 没有尾部斜杠，因此其行为表现与一个文件类似。
+如果访问这个 URL 时添加了尾部斜杠就会得到一个 404 错误。
+这样可以保持 URL 唯一，并帮助 搜索引擎避免重复索引同一页面。
+"""
+@app.route('/about')
+def about():
+    return 'The about page'
 
 
 if __name__ == '__main__':
